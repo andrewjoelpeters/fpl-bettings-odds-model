@@ -3,3 +3,4 @@ fpl-data-model/
 optimizer.ipynb
 .python-version
 .DS_Store
+**/__pycache__
