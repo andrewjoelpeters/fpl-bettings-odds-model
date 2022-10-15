@@ -1,0 +1,5 @@
+**/all_simulations.pkl
+fpl-data-model/
+optimizer.ipynb
+.python-version
+.DS_Store
