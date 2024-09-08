@@ -78,5 +78,11 @@ name_conversion_dict = {
     'Lucas Paqueta': 'Lucas Tolentino Coelho de Lima',
     'Emerson Royal': 'Emerson Leite de Souza Junior',
     'Antony': 'Antony Matheus dos Santos',
-    'Casemiro': 'Carlos Henrique Casimiro'    
+    'Casemiro': 'Carlos Henrique Casimiro',
+    'Willian': 'Willian Borges da Silva',
+    'Sergi Canos': 'Sergi Canos Tenes',
+    'Diego Costa': 'Diego Da Silva Costa',
+    'Renan Lodi': 'Renan Augusto Lodi dos Santos',
+    'Luis Sinisterr': 'Luis Sinisterra Lucumi',
+    'Thiago': 'Thiago Alcantara do Nascimento',    
 }

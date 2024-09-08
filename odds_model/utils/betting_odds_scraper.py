@@ -3,18 +3,28 @@ import os
 from bs4 import BeautifulSoup
 import pandas as pd
 from selenium import webdriver
-from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+#from selenium.webdriver.common.by import By
 import time
 from datetime import date
+import dateutil.parser
 import json
 import pickle
 
-def get_match_slugs():
+def get_match_slugs(last_date_of_gw):
     url = 'https://www.bettingodds.com/football/premier-league'
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser')
 
-    match_slugs = [a['href']  for a in soup.find_all('a', class_='oddsstats', href=True)]
+    match_slugs = []
+    day_containers = soup.find_all('div', class_='day-container')
+    for day_c in day_containers:
+        date = day_c.find('div', class_='day-title')
+        date = dateutil.parser.parse(date.text)
+        if date <= last_date_of_gw:
+            match_slugs.extend([a['href']  for a in day_c.find_all('a', class_='oddsstats', href=True)])
+            
     print(f'Retrieveed {len(match_slugs)} total matches.')
     return match_slugs
 
@@ -314,15 +324,15 @@ def run_match_scraper(match, previously_scraped_match_slugs, all_scorelines, all
         
     return
 
-def orchestrator():
+def orchestrator(last_date_of_gw):
     """This function gathers all possible match slugs to scrape, and checks that list
     against the previous scraped slugs, if any. If any slugs are remaining to be scraped,
     try scraping them, up to 10 total attempts.
     """
     
-    all_match_slugs = get_match_slugs()    
+    all_match_slugs = get_match_slugs(last_date_of_gw)    
     attempts_count = 1
-    driver = webdriver.Chrome('/usr/local/bin/chromedriver')
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
     
     while attempts_count <= 10:
         remaining_match_slugs, previously_scraped_match_slugs = collect_previously_scraped_slugs(all_match_slugs)
